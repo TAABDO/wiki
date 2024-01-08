@@ -1,0 +1,39 @@
+CREATE DATABASE wiki
+
+CREATE TABLE role (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nom VARCHAR(255),
+);
+CREATE TABLE utilisateur{
+    
+}
+
+CREATE TABLE tag (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nom_complet VARCHAR(255)
+);
+
+CREATE TABLE wiki (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nom_complet VARCHAR(255),
+    titre VARCHAR(255),
+    contenu VARCHAR(255),
+    image VARCHAR(255),
+    statut BOOLEAN,
+    utilisateur_id INT,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE categorie (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nom_complet VARCHAR(255),
+    wiki_id INT,
+    FOREIGN KEY (wiki_id) REFERENCES wiki(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE tag_wiki (
+    tag_id INT,
+    wiki_id INT,
+    FOREIGN KEY (tag_id) REFERENCES tag(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (wiki_id) REFERENCES wiki(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
