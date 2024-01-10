@@ -7,15 +7,14 @@ require "../../vendor/autoload.php";
 
 class UserControllers{
 
-public function user(){
-
-     $user= new User(null , null , null );
-     $row = $user->fetchUtilisateur();
-
-    return $row;
 
 
-}
+            public function show(){
+               $users = User::fetchUtilisateur();
+               return $users;
+
+            }
+
 
 }
 

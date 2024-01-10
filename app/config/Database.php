@@ -22,7 +22,6 @@ public static function connect(){
         try {
             $dsn = "mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']}";
             self::$conn = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
-              echo'connect';
         } catch (PDOException $e) {
             throw new Exception('Connection failed: '.$e->getMessage());
         }
@@ -31,7 +30,6 @@ public static function connect(){
     }
 
 }
-$conx = Database::connect();
 
 
 

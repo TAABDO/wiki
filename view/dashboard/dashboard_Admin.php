@@ -1,9 +1,16 @@
-<?php
+ <?php
 
 use Myapp\Controllers\UserControllers;
-require '../vendor/autoload.php';
+use Myapp\Controllers\WikiControllers;
 
-?>
+require '../../vendor/autoload.php';
+$UserControllers= new UserControllers();
+$users= $UserControllers->show();
+$WikiControllers= new WikiControllers();
+$wiki= $WikiControllers->showwikis();
+
+
+?> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +21,35 @@ require '../vendor/autoload.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
+    <style>
+      .affichage{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-wrap:wrap;
+      gap: 1em;
+      padding-top: 8em;
+     
+
+}
+ .users{
+  border: 7px solid #222222;
+  border-radius: 10px;
+  box-shadow: 10px 10px #bd9a9ae1;
+  background-color:#fe7f32;
+  font-style: #050505;
+  width: 36em;
+
+}
+
+td ,th{
+color: antiquewhite;
+}
+td:hover{
+  background: #eeeeee;
+  color: #222222;
+}
+    </style>
 </head>
 <body>
 
@@ -52,13 +88,13 @@ require '../vendor/autoload.php';
               </div>
               <ul class="py-1" role="none">
                 <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">users</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Settings</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Wiki</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Earnings</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Catigorie</a>
                 </li>
                 <li>
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
@@ -71,123 +107,130 @@ require '../vendor/autoload.php';
   </div>
 </nav>
 
-<!-- <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
    <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
       <ul class="space-y-2 font-medium">
          
          
          <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Inbox</span>
-               <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                  <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
-               </svg>
+               
                <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
             </a>
          </li>
          <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                  <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z"/>
-               </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Products</span>
+               
+               <span class="flex-1 ms-3 whitespace-nowrap">Wiki</span>
             </a>
          </li>
-         <!-- <li>
+         <li>
+            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               
+               <span class="flex-1 ms-3 whitespace-nowrap">Catigorie</span>
+            </a>
+         </li>
+         <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
                </svg>
                <span class="flex-1 ms-3 whitespace-nowrap">Sign </span>
             </a>
-         </li> -->
+         </li>
         
       </ul>
    </div>
-</aside> -->
+</aside>
 
 
-<div class="affichage">
+<div class="affichage pl-44 pt-44 items-center">
 
-		<div class="users pt-14 pl-60">
-	<form method="POST" action="../app/Controllers/UserControllers.php">
+		<div class="users ">
+
+	<form method="POST" action="../../app/Controllers/UserControllers.php">
     <table class="table">
-    <thead>
-      <tr>		
-        <th scope="col"class="User_id">User_id</th>
-        <th scope="col"class="Nom">Nom</th>
-        <th scope="col"class="email">Email</th>
+    <thead >
+      <tr class="flex flex-row justify-evenly	">		
+        <th scope="col"class="User_id ">User_id</th>
+        <th scope="col"class="Nom ">Nom</th>
+        <th scope="col"class="email ">Email</th>
+        <th scope="col"class="email ">role</th>
+        <th scope="col"class="email ">Action</th>
+
+
       </tr>
     </thead>
     <tbody>
 
 	<?php
-	$UserControllers= new UserControllers();
-    $UserControllers->user();
-	 while ($row){
+	 
+	 foreach($users as $user){
 	?>
-        <tr>		
-        <td><?php echo $row['id'] ?></td>
-        <td><?php echo $row['nom'] ?></td>
-        <td><?php echo $row['email']?></td>
-      </tr>
+        <tr class="flex flex-row justify-around gap-10 ">		
+        <td><?php echo $user['id'] ?></td>
+        <td><?php echo $user['nom'] ?></td>
+        <td><?php echo $user['email']?></td>
+        <td><?php echo $user['nom']?></td>
+        <td> 
+			      <button type="submit" class=""><a href="update.php?id=<?php echo $row["id"] ?>">UpDate</a></button>
+            <button type="submit" class=""><a href="delete.php?id=<?php echo $row["id"] ?>">delete</a></button>
+        </td>
+
+        </tr>
 	  <?php
 	  }
 	  ?>
 
     </tbody>
   </table>
-
     </form>
 </div>
-		<!-- <div class="orders">  
-			<form action="ajouter.php" method="get">
-<table class="table">
-    <thead>
-      <tr>
-	  						
-        <th scope="col"class="tableName">Order_ID</th>
-        <th scope="col"class="tableName">Order_Name</th>
-		<th scope="col"class="tableName">Location</th>
-		<th scope="col"class="tableName">users_id</th>
+<div class="users ">
+
+	<form method="POST" action="../../app/Controllers/UserControllers.php">
+    <table class="table">
+    <thead >
+      <tr class="flex flex-row justify-evenly	">		
+        <th scope="col"class="User_id ">User_id</th>
+        <th scope="col"class="Nom ">Nom</th>
+        <th scope="col"class="email ">Email</th>
+        <th scope="col"class="email ">role</th>
+        <th scope="col"class="email ">Action</th>
+
 
       </tr>
     </thead>
     <tbody>
 
-	 <?php
+	<?php
 	 
-	//  $stmt = $connect->prepare("SELECT * FROM orders");
-	//  $stmt->execute();
-	//  $result = $stmt->get_result();
-	 
-	//  while ($row = $result->fetch_assoc()) {
-		 // Output data or perform other actions
-	?> -->
-      <!-- <tr>
-	    <td><?php echo $row['id'] ?></td>
-        <td><?php echo $row['nom']?></td>
-        <td><?php echo $row['location']?></td>
-		<td><?php echo $row['users_id']?></td>
-      </tr> -->
-	  <?php
-	//   }
-	  ?>
- 
-    <!-- </tbody>
-  </table>
+	 foreach($wiki as $wikis){
+	?>
+        <tr class="flex flex-row justify-around gap-10 ">		
+        <td><?php echo $wikis['id'] ?></td>
+        <td><?php echo $wikis['nom'] ?></td>
+        <td><?php echo $wikis['titre']?></td>
+        <td><?php echo $wikis['contenu']?></td>
+        <td><?php echo $wikis['statut']?></td>
+        <td><?php echo $wikis['utilisateur_id']?></td>
+        <td><?php echo $wikis['categorie_id']?></td>
 
+       
+        <td> 
+			      <button type="submit" class=""><a href="update.php?id=<?php echo $wikis["id"] ?>">UpDate</a></button>
+        </td>
+
+        </tr>
+	  <?php
+	  }
+	  ?>
+
+    </tbody>
+  </table>
     </form>
-      </div> -->
-	</div> -->
+</div>
+	</div> 
 
 </body>
 </html>

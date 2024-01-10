@@ -11,11 +11,13 @@
 
 
 <body>
-
-    <section class="img-background p-0 m-0">
-
+ 
+    <section class="img-background bg-blue-500 p-0 m-0">
+          <div class=" pl-16 pt-20 ">
+             <h1 class="text-5xl font-bold">WiKi</h1>
+          </div>
         <div class="form-container max-w-sm mx-auto mt-20">
-            <form id="signupForm" class="max-w-sm mx-auto" action="signin" method="post">
+            <form id="signupForm" class="max-w-sm mx-auto" action="../../app/Controllers/AuthControllers.php" method="post">
                 <h1 class="text-3xl text-white font-bold text-center">
                     Log In
                 </h1>
@@ -26,8 +28,8 @@
                 </div>
 
                 <div class="form-input mb-2 pt-2">
-                    <input type="password" id="password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="password" name="password" required>
-                    <span id="passwordError" class="error-message"></span>
+                    <input type="password" id="motdepasse" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="motdepasse" name="motdepasse" required>
+                    <span id="motdepasseError" class="error-message"></span>
                 </div>
 
 

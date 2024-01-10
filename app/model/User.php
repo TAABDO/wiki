@@ -1,8 +1,11 @@
 <?php
 
+
 namespace Myapp\model;
+
 use Myapp\config\Database;
-require "../../vendor/autoload.php";
+require_once __DIR__ . "/../../vendor/autoload.php";
+
 
 
 class User
@@ -11,16 +14,16 @@ class User
     private $nom;
     private $email;
     private $motedepasse;
+    private $role_id;
     private $conn;
 
-    public function __construct($id, $nom, $email, $motedepasse)
+    public function __construct($id, $nom, $email, $motedepasse ,$role_id)
     {
         $this->id = $id;
         $this->nom = $nom;
         $this->email = $email;
         $this->motedepasse = $motedepasse;
-
-        $this->conn = Connection::connect();
+        $this->role_id=$role_id;
 
     }
 
@@ -59,61 +62,86 @@ class User
         return $this->motedepasse;
     }
     private function setMotedepasse($motedepasse) {
-       $this->password = password_hash($motedepasse, PASSWORD_DEFAULT);
+        $this->motedepasse = password_hash($motedepasse, PASSWORD_DEFAULT);
+     }
+     
+    
+    public function getRole_id()
+    {
+        return $this->role_id;
+    }
+
+    public function setRole_id($role_id)
+    {
+        $this->role_id = $role_id;
     }
 
 
-    public function ajouter(){
-       $hashedPassword = password_hash($this->motedepasse, PASSWORD_DEFAULT);
+    
+    public static function signUp($nom, $email, $motedepasse, $role_id) {
+        try {
+            $conn=Database::connect();
+            $hashedPassword = password_hash($motedepasse, PASSWORD_DEFAULT);
 
-       $requet = "INSERT INTO `utilisateur`(`nom`,`email`, `motedepasse`) VALUES (:nom, :email, :motedepasse)";
+            $query = "INSERT INTO `utilisateur`(`nom`, `email`, `motedepasse`, `role_id`) VALUES (:nom, :email, :motedepasse, :role_id)";
+            $stmt = $conn->prepare($query);
 
-       $stmt = $this->conn->prepare($requet);
-       $stmt->BindParam(':nom',$this->nom);
-       $stmt->BindParam(':email',$this->email);
-       $stmt->bindParam(':motedepasse', $hashedPassword);
-       
-       $resultUser = $stmt->execute();
+            $stmt->bindParam(':nom', $nom);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':motedepasse', $hashedPassword);
+            $stmt->bindParam(':role_id', $role_id);
 
-//        if ($resultUser) {
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\PDOException $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
 
-//            $lastUserId = $this->conn->lastInsertId();
-   
-//            // Role insertion
-//            $queryRole = "INSERT INTO `users_role`(`users_id`, `role_id`) VALUES (:users_id, 7)";
-            
-//            $stmtRole = $this->conn->prepare($queryRole);
-//            $stmtRole->bindParam(':users_id',$lastUserId);
-   
-//            $resultRole = $stmtRole->execute();
-   
-//            if ($resultRole) {
-               
-//                return true;
-//            } else {
-//                echo "Error adding user role";
-//            }
-//        } else {
-//            echo "Error adding user";
-//        }
-   
-//        return false;
-//    }
+        
+    }
+    
 
-}
+    public function findUserByEmail() {
 
-public function fetchUtilisateur(){
+            $conn = Database::connect();
 
-       $query = "SELECT * FROM `utilisateur`";
+            $query = "SELECT * FROM utilisateur WHERE `email` = :email ";
+            $stmt = $conn->prepare($query);
+            $stmt-> bindParam(':email',$this->email);
+            $stmt-> execute();
+            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-       $stmt = $this->conn->prepare($query);
+            return $row;
+        }
+         
+    
+
+public static function fetchUtilisateur(){
+
+       $conn=Database::connect();
+
+       $query = "SELECT u.id,u.nom,u.email,r.nom FROM utilisateur as u INNER JOIN role as r on u.role_id=r.id";
+
+       $stmt = $conn->prepare($query);
 
        $stmt->execute();
 
        $rows = $stmt->fetchAll();
 
        return $rows;
+
+   }
+
+   public static function MisajourUtilisateur(){
+    
+    $conn=Database::connect();
+
+
+
    }
 }
-
 ?>
