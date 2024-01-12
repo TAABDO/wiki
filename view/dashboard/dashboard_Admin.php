@@ -2,13 +2,21 @@
 
 use Myapp\Controllers\UserControllers;
 use Myapp\Controllers\WikiControllers;
+use Myapp\Controllers\CategoriesControllers;
+use Myapp\Controllers\TagControllers;
 
 require '../../vendor/autoload.php';
 $UserControllers= new UserControllers();
 $users= $UserControllers->show();
+
 $WikiControllers= new WikiControllers();
 $wiki= $WikiControllers->showwikis();
 
+$CategoriesControllers= new CategoriesControllers();
+$caty= $CategoriesControllers->showcategories();
+
+$tagController = new TagControllers();
+$tags = $tagController->showTags();
 
 ?> 
 
@@ -66,7 +74,7 @@ td:hover{
          </button>
         <a href="https://flowbite.com" class="flex ms-2 md:me-24">
           <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
-          <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Flowbite</span>
+          <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Wiki</span>
         </a>
       </div>
       <div class="flex items-center">
@@ -115,19 +123,19 @@ td:hover{
          <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                
-               <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
+               <span class="flex-1 ms-3 whitespace-nowrap">Users & Wiki</span>
             </a>
          </li>
          <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                
-               <span class="flex-1 ms-3 whitespace-nowrap">Wiki</span>
+               <span class="flex-1 ms-3 whitespace-nowrap">Catigorie & tag</span>
             </a>
          </li>
          <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                
-               <span class="flex-1 ms-3 whitespace-nowrap">Catigorie</span>
+               <span class="flex-1 ms-3 whitespace-nowrap"></span>
             </a>
          </li>
          <li>
@@ -143,20 +151,29 @@ td:hover{
    </div>
 </aside>
 
+<!-- /==========================users============================= -->
 
-<div class="affichage pl-44 pt-44 items-center">
 
-		<div class="users ">
+
+<div class="affichage pl-80	 pt-44 items-start">
+
+		<div class="Users pb-20 rounded-lg">
+
+    <div class="h-10 w-full">
+      <h1 class="font-bold pl-">Users Information <hr class="h-5"></h1>
+    </div>
 
 	<form method="POST" action="../../app/Controllers/UserControllers.php">
-    <table class="table">
-    <thead >
-      <tr class="flex flex-row justify-evenly	">		
-        <th scope="col"class="User_id ">User_id</th>
-        <th scope="col"class="Nom ">Nom</th>
-        <th scope="col"class="email ">Email</th>
-        <th scope="col"class="email ">role</th>
-        <th scope="col"class="email ">Action</th>
+  <button type="submit" class="bg-blue-700 text-white py-2 px-4 rounded-md"><a href="categorie/ajouter.php">ajouter</a></button>
+  <table class="w-max text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+      <tr >	
+        <th scope="col" class="px-6 py-3">User_id</th>
+        <th scope="col" class="px-6 py-3">Nom</th>
+        <th scope="col" class="px-6 py-3">Email</th>
+        <th scope="col" class="px-6 py-3">role</th>
+        <th scope="col" class="px-6 py-3">Action</th>
 
 
       </tr>
@@ -167,15 +184,15 @@ td:hover{
 	 
 	 foreach($users as $user){
 	?>
-        <tr class="flex flex-row justify-around gap-10 ">		
-        <td><?php echo $user['id'] ?></td>
-        <td><?php echo $user['nom'] ?></td>
-        <td><?php echo $user['email']?></td>
-        <td><?php echo $user['nom']?></td>
-        <td> 
-			      <button type="submit" class=""><a href="update.php?id=<?php echo $row["id"] ?>">UpDate</a></button>
-            <button type="submit" class=""><a href="delete.php?id=<?php echo $row["id"] ?>">delete</a></button>
-        </td>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <td class="px-6 py-4"><?php echo $user['id'] ?></td>
+        <td class="px-6 py-4"><?php echo $user['nom'] ?></td>
+        <td class="px-6 py-4"><?php echo $user['email']?></td>
+        <td class="px-6 py-4"><?php echo $user['role_title']?></td>
+        <!-- <td> 
+			      <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md"><a href="update.php?id=<?php echo $user["id"] ?>">UpDate</a></button>
+            <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-md"><a href="delete.php?id=<?php echo $user["id"] ?>">delete</a></button>
+        </td> -->
 
         </tr>
 	  <?php
@@ -186,19 +203,24 @@ td:hover{
   </table>
     </form>
 </div>
-<div class="users ">
+<!-- ================================= Wiki ==================================== -->
+<div class="pb-20">
+<div class="h-10 w-full">
+      <h1 class="font-bold ">Wiki Information <hr class="h-5"></h1>
+    </div>
+	<form method="POST" action="../../app/Controllers/WikiControllers.php">
 
-	<form method="POST" action="../../app/Controllers/UserControllers.php">
-    <table class="table">
-    <thead >
-      <tr class="flex flex-row justify-evenly	">		
-        <th scope="col"class="User_id ">User_id</th>
-        <th scope="col"class="Nom ">Nom</th>
-        <th scope="col"class="email ">Email</th>
-        <th scope="col"class="email ">role</th>
-        <th scope="col"class="email ">Action</th>
+  <table class="w-min text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 
-
+      <tr >		
+        <th scope="col" class="px-6 py-3" >User_id</th>
+        <th scope="col" class="px-6 py-3">titre</th>
+        <th scope="col" class="px-6 py-3">contenu</th>
+        <th scope="col" class="px-6 py-3">statut</th>
+        <th scope="col" class="px-6 py-3">utilisateur_id</th>
+        <th scope="col" class="px-6 py-3">categorie_id</th>
+        <th scope="col" class="px-6 py-3">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -207,18 +229,16 @@ td:hover{
 	 
 	 foreach($wiki as $wikis){
 	?>
-        <tr class="flex flex-row justify-around gap-10 ">		
-        <td><?php echo $wikis['id'] ?></td>
-        <td><?php echo $wikis['nom'] ?></td>
-        <td><?php echo $wikis['titre']?></td>
-        <td><?php echo $wikis['contenu']?></td>
-        <td><?php echo $wikis['statut']?></td>
-        <td><?php echo $wikis['utilisateur_id']?></td>
-        <td><?php echo $wikis['categorie_id']?></td>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <td class="px-6 py-4"><?php echo $wikis['id'] ?></td>
+        <td class="px-6 py-4"><?php echo $wikis['titre']?></td>
+        <td class="px-6 py-4"><?php echo $wikis['contenu']?></td>
+        <td class="px-6 py-4"><?php echo $wikis['statut']?></td>
+        <td class="px-6 py-4"><?php echo $wikis['utilisateur_id']?></td>
+        <td class="px-6 py-4"><?php echo $wikis['categorie_id']?></td>
 
-       
         <td> 
-			      <button type="submit" class=""><a href="update.php?id=<?php echo $wikis["id"] ?>">UpDate</a></button>
+        <button type="button" onclick="openModal('updateWikiModal')" class="bg-blue-500 text-white py-2 px-4 rounded-md">Update Status</button>
         </td>
 
         </tr>
@@ -230,7 +250,140 @@ td:hover{
   </table>
     </form>
 </div>
+<!-- Inside the <body> tag, before the closing </body> tag -->
+
+<!-- Modal for updating wiki status -->
+<div id="updateWikiModal" class="fixed inset-0 z-50 hidden overflow-auto bg-black bg-opacity-50">
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="w-full p-4 bg-white md:max-w-md md:p-6 lg:p-8 rounded shadow">
+      <div class="mb-4 text-lg font-semibold">Update Wiki Status</div>
+      <form id="updateWikiForm" method="post" action="../../app/Controllers/WikiControllers.php">
+        <div class="mb-4">
+            <input type="hidden" name="wikiId" value="<?php echo $wikis['id']; ?>">
+
+          <label for="newStatus" class="block text-sm font-medium text-gray-700">New Status:</label>
+          <select id="newStatus" name="newStatus" class="mt-1 block w-full p-2 border rounded-md">
+            <option value="accepted">Accepted</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <div class="flex justify-end">
+          <button type="button" onclick="closeModal('updateWikiModal')" class="px-4 py-2 text-white bg-gray-500 rounded-md">Cancel</button>
+          <button type="submit" name="updateStatus" class="ml-2 px-4 py-2 text-white bg-blue-500 rounded-md">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ================================= caty ==================================== -->
+
+
+<div class="relative overflow-x-auto flex flex-row  gap-20 justify-evenly	 md:flex-wrap	 ">
+  <div class="caty">
+    <div class="h-10 w-full">
+      <h1 class="font-bold pl-">caty Information <hr class="h-5"></h1>
+      
+    </div>
+<form method="get" action="">
+<button type="submit" class="bg-blue-700 text-white py-2 px-4 rounded-md"><a href="categorie/ajouter.php">ajouter</a></button>
+
+
+    <table class="w-max text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                catigorie_id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                catigorie_nom 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Action
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+	 
+	 foreach($caty as $catis){
+	?>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4"><?php echo $catis['id'] ?></td>
+                <td class="px-6 py-4"><?php echo $catis['nom'] ?></td>
+                <td> 
+			      <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md"><a href="categorie/update.php?id=<?php echo $catis["id"] ?>">UpDate</a></button>
+            <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-md"><a href="categorie/delete.php?id=<?php echo $catis["id"] ?>">delete</a></button>
+               </td>
+            </tr>
+            
+      <?php
+	    }
+	     ?>
+        </tbody>
+    </table>
+</div>
+
+<div class="tag">
+<div class="h-10 w-full">
+      <h1 class="font-bold pl-">tag Information <hr class="h-5"></h1>
+    </div>
+<form method="get" action="">
+<button type="submit" class="bg-blue-700 text-white py-2 px-4 rounded-md"><a href="tag/ajouter.php">ajouter</a></button>
+
+    <table class="w-max text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                Tag_id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                Tag_nom 
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Action
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+	 
+	 foreach ($tags as $tag){
+
+	?>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4"><?php echo $tag['id'] ?></td>
+                <td class="px-6 py-4"><?php echo $tag['nom'] ?></td>
+                <td> 
+			           <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md"><a href="tag/update.php?id=<?php echo $tag["id"] ?>">UpDate</a></button>
+                 <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-md"><a href="tag/delete.php?id=<?php echo $tag["id"] ?>">delete</a></button>
+                </td>
+            </tr>
+            
+      <?php
+	    }
+	     ?>
+        </tbody>
+    </table>
+</div>
+</div>
+
+<!-- ======================================== caty=================================== -->
 	</div> 
 
+
+  <script>
+  function openModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+  }
+
+  function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+  }
+</script>
 </body>
 </html>

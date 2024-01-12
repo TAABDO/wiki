@@ -117,6 +117,18 @@ class User
 
             return $row;
         }
+        public function Utilisateurparid($idutilisateur) {
+
+            $conn = Database::connect();
+
+            $query = "SELECT * FROM utilisateur WHERE `id` = :id ";
+            $stmt = $conn->prepare($query);
+            $stmt-> bindParam(':id',$idutilisateur);
+            $stmt-> execute();
+            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            return $row;
+        }
          
     
 
@@ -124,7 +136,7 @@ public static function fetchUtilisateur(){
 
        $conn=Database::connect();
 
-       $query = "SELECT u.id,u.nom,u.email,r.nom FROM utilisateur as u INNER JOIN role as r on u.role_id=r.id";
+       $query = "SELECT u.id,u.nom,u.email,r.nom as role_title FROM utilisateur as u INNER JOIN role as r on u.role_id=r.id";
 
        $stmt = $conn->prepare($query);
 
@@ -136,10 +148,23 @@ public static function fetchUtilisateur(){
 
    }
 
-   public static function MisajourUtilisateur(){
+   public static function updateUtilisateur($nom, $email, $motedepasse, $role_id){
     
-    $conn=Database::connect();
+    try {
+        $conn = Database::connect();
 
+        $requet = "UPDATE `utilisateur` SET `nom`=:nom,`email`=:email,`role_id`=:role_id WHERE `id` = :id";
+
+        $stmt->bindParam(':nom', $nom);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':role_id', $role_id);
+        $result = $stmt->execute();
+
+        return $result;
+    } catch (\PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    }
 
 
    }

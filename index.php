@@ -1,29 +1,35 @@
-<!-- <?php
-// use App\models\AnnonceController;
+<?php
+use Myapp\Controllers\WikiControllers;
+use Myapp\Controllers\CategoriesControllers;
+use Myapp\Controllers\TagControllers;
 
-// require '../../vendor/autoload.php';
+require 'vendor/autoload.php';
 
-?> -->
+$WikiControllers= new WikiControllers();
+$wiki= $WikiControllers->showwikis();
+
+
+$CategoriesControllers= new CategoriesControllers();
+$caty= $CategoriesControllers->showcategories();
+
+$tagController = new TagControllers();
+$tags = $tagController->showTags();
+
+
+?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> -->
-        <!-- <link href="../../public/css/tailwind.css" rel="stylesheet"> -->
         <link href="../../public/css/annonce.css" rel="stylesheet"> 
-        <!-- <script src="../../public/js/annonce.js"></script> -->
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
-        <!-- <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"> -->
          <link rel="stylesheet"href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
-         <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,800;0,900;1,500;1,700;1,800;1,900&display=swap"rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" /> -->
+         
         <script src="https://cdn.tailwindcss.com"></script>
 
-        <link rel="stylesheet" href="/ImmoConnect/public/css/details.css">
-    <title>Document</title>
+    <title>WIKIHOME</title>
 </head>
 <style>
     .search{
@@ -32,19 +38,23 @@
     border: none;
     border-radius: 15px;
     height: 45px;
+    padding-left:10px;
+}
+body{
+    background:rgb(230 230 230);
 }
 </style>
-<body>
+<body >
 
 <!-- =================================== header/navbar ============================== -->
    
 
 
-<nav >
+<nav  class="dark:bg-gray-800 dark:border-gray-700">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
   <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
       <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
-      <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ImmoConnect</span>
+      <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">WIKI</span>
   </a>
   <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
       <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
@@ -78,7 +88,7 @@
     </button>
   </div>
   <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-    <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+    <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md: dark:border-gray-700">
       <li>
         <a href="#" class="block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Home</a>
       </li>
@@ -98,12 +108,11 @@
 <!-- ================================= first View ========================= -->
 
 
-<div class="relative">
-<img style="width:93rem;height:43rem" class="pl-6 rounded-3xl md: flex w-full" src="/ImmoConnect/public/image/pexels-clay-elliot-5524336.jpg" />
-<div style="top:20rem;right:20rem;background-color:rgba(30, 30, 30, 0.55)" class="absolute rounded-2xl h-52 w-96 flex flex-col space-y-12 md:right-8 w-8	">
-  <p style="" class="relative text-white top-5 left-2 font-bold font-medium">Whether you’re searching  for houses, 
-  apartments, or condos, it's easy to find a place
-   you'll love.</p>
+<div class="flex flex-row bg-gray pb-20 justify-evenly items-center mt-10 md: relative">
+<img style="width:48rem;height:24rem" class="pl-6 md:flex " src="public/image/background.png" />
+<div style="background-color:rgba(30, 30, 30, 0.55)" class=" rounded-2xl h-52 w-96 flex flex-col space-y-5 md:right-8 w-8	">
+  <h1 style="" class="relative text-white top-5 left-2">Welcome to wiki, the most trusted how-to site on the internet.</h1>
+    <p class="text-white">What will you learn on wikiHow today?</p>
    <div class="head-left">
             <div class="search">
                 <input type="text" placeholder="Search" class="search" id="searchInput" oninput="searchCards()">
@@ -114,97 +123,108 @@
         </div>
 </div>
 </div>
+<div class="overflow-x-auto">
 
-<!-- ============================= first Annonce/part1 ============== -->
-
-
-<!-- Main modal -->
-<div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden bg-gray-800 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 bg-white w-full max-w-md max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Create New Annonce
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-40 w-24 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <!-- Modal body -->
-            <form class="flex flex-row justify-centre mr-1 md:p-5" method="post" action="../../app/controllers/AnnonceController.php" >
-                <div class="flex flex-col gap-4 mb-4 pl-3">
-                    <!-- <div class="col-span-3">
-                        <input type="file" name ="image"class="h-10 w-36 block mb-2 text-sm rounded-lg font-medium text-gray-900 dark:text-white" id="imageInput" name="images[]" multiple accept="image/*">
-                    </div> -->
-                    
-                    <div class=" sm:col-span-1">
-                        <label for="prix" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                        <input type="number" name="prix" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required="">
-                    </div>
-                    <div class="">
-                        <label for="titre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                        <input type="text" name="titre" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required="">
-                    </div>
-                    <div class="">
-                        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Annonce Description</label>
-                        <textarea id="description"  name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write Annonce description here"></textarea>                    
-                    </div>
-                    <div class="">
-                        <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
-                        <input type="date" name="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
-                    </div>
-                   </div>
-                   <div class="button h-10">
-                <button type="submit" name="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                    Add new product
-                </button>
-                </div>
-            </form>
+<div class="container mx-auto pt-20 text-center">
+          <hr>
+            <h2 class="text-4xl font-extrabold mb-4">Explore catigorie</h2>
+            <!-- Add more content or links as needed -->
         </div>
-    </div>
-</div> 
 
-
-
-
-
-<section>
+<div class="flex flex-row justify-evenly ">
     <div>
-        
+<form method="get" action="">
 
-<div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-    <a href="#">
-        <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-    </a>
-    <div class="p-5">
-        <a href="#">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-        </a>
-        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-        <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Read more
-             <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-            </svg>
-        </a>
-    </div>
+    <table class="w-min text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                catigorie_nom 
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+	 
+	 foreach($caty as $catis){
+	?>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4"><?php echo $catis['nom'] ?>
+            </td>
+            </tr>
+            
+      <?php
+	    }
+	     ?>
+        </tbody>
+    </table>
+    </form>
 </div>
 
+<div class="bg-gray-300  pt-10 gap-10 w-96 h-64 rounded-3xl	">
+<form action="">
+<div>
+<?php
+	 foreach($caty as $catis){
+	?>
+                <button type="submit" class="bg-blue-500 gap-10 text-white py-2 px-4 rounded-md"><?php echo $catis['nom'] ?></button>
+            
+      <?php
+	    }
+	     ?>
+</div>
+</form>
+</div>
+</div>
     </div>
-</section>
+<!-- ============================= derniers wikis ============== -->
+
+
+
+
+<div class="container mx-auto pb-20 text-center relative">
+    <button type="submit" class="absolute left-10 bg-blue-500 text-white ml-0 py-2 px-4 rounded-md">
+        <a href="view/dashboard/wikiview/ajouterwiki.php">ajouter Wiki + </a>
+    </button>
+
+    <h2 class="text-4xl font-extrabold mb-4">Explore Wikis</h2>
+    <p class="text-lg">Discover a vast collection of wikis covering various topics. Dive into knowledge!</p>
+    <!-- Add more content or links as needed -->
+</div>
+
+<div class="container mx-auto flex flex-wrap justify-center gap-4">
+       <?php 
+    foreach ($wiki as $wikis):
+        ?>
+        <div class="max-w-sm w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-4 relative overflow-hidden">
+            <div class="h-0 border-b-4 border-solid border-transparent absolute top-0 left-0 right-0"></div>
+            <h3 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><?php echo $wikis['titre']?></h3>
+            <h5 class="font-normal text-gray-700 pb-10 dark:text-gray-400"><?php echo $wikis['contenu']?></h5>
+            <button type="submit" class="bg-blue-500 gap-10 text-white py-2 px-4 rounded-md"><a href="categorie/update.php?id=<?php echo $wikis["id"] ?>">show more</button>
+
+        </div>
+    <?php endforeach; ?>
+</div>
+
+
+
+<br>
+
+
+<!-- ================================= caty ==================================== -->
+
+
+
+<!-- ======================================= FOOTER ============= -->
+
 
 <!-- ======================================= FOOTER ============= -->
 <footer class="relative bg-teal-900 pt-8 pb-6 mt-6">
         <div class="container mx-auto px-4">
             <div class="flex flex-wrap text-left lg:text-left">
                 <div class="w-full lg:w-6/12 px-4">
-                    <h4 class="text-3xl font-bold text-white">ImmoConnect</h4>
+                    <h4 class="text-3xl font-bold text-white">WIKI</h4>
                     <div class="mt-6 lg:mb-0 mb-6">
                         <button
                             class="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"

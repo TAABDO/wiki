@@ -1,7 +1,7 @@
 <?php
 namespace Myapp\config;
 
-require "../../vendor/autoload.php";
+require __DIR__."/../../vendor/autoload.php";
 
 
 

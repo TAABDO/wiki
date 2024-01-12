@@ -1,31 +1,31 @@
 <?php
 
 namespace Myapp\model;
-
+require __DIR__.'/../../vendor/autoload.php';
 use Myapp\config\Database;
 
 class Wiki
 {
  
-        public static function ajouterWiki($title, $category, $image, $description , $user_id , $tags)
+        public static function ajouterWiki($title, $contenu , $user_id , $category_id, $tags)
     {
         try {
             $conn=Database::connect();
     
-            $categoryId = Categorie::getCategoryId($category);
+            $categoryId = Categorie::obtenirCategoriesid($category_id);
     
             if (!$categoryId) {
                 echo "Error: Category not found.";
                 return false;
             }
-    
-            $sql = "INSERT INTO `wiki` (`title`, `description`, `image`, `user_id` , `category_id`) VALUES (:title, :description:, :image:, :user_id: , :category_id:)";
-            $stmt = $conn->prepare($sql);
+
+            $requet = "INSERT INTO `wiki`(`titre`, `contenu`,`utilisateur_id`, `categorie_id`) VALUES (?,?,?,?)";
+            $stmt = $conn->prepare($requet);
             $stmt->bindParam(1, $title);
-            $stmt->bindParam(2, $description);
-            $stmt->bindParam(3, $image);
-            $stmt->bindParam(4, $user_id);
-            $stmt->bindParam(5, $categoryId); 
+            $stmt->bindParam(2, $contenu);
+            $stmt->bindParam(3, $user_id);
+            $stmt->bindParam(4, $category_id);
+
             $stmt->execute();
             $lastid = $conn->lastInsertId();
             self::ajouterTagspourWiki($lastid , $tags);
@@ -42,11 +42,11 @@ class Wiki
             $conn=Database::connect();
     
             foreach ($tags as $tag) {
-                $tagId = Tag::obtenirCategoriesid($tag);
+                $tagId = Tag::obtenirTagId($tag);
     
                 if ($tagId !== null) {
-                    $sql = "INSERT INTO `wiki_tag` (`wiki_id`, `tag_id`) VALUES (?, ?)";
-                    $stmt = $conn->prepare($sql);
+                    $requet = "INSERT INTO `tag_wiki` (`wiki_id`, `tag_id`) VALUES (?, ?)";
+                    $stmt = $conn->prepare($requet);
                     $stmt->bindParam(1, $wikiId);
                     $stmt->bindParam(2, $tagId);
                     $stmt->execute();
@@ -60,13 +60,12 @@ class Wiki
     }
     
 
-        public static function getAllWikis(){
+        public static function obtenirtoutsWikis(){
             try{
                 $conn=Database::connect();
-                $sql = "SELECT w.*, c.name as category_name
-                FROM `wiki` w
-                JOIN `category` c ON w.category_id = c.id";
-                $stmt = $conn->prepare($sql);
+
+                $requet = "SELECT * FROM `wiki` where statut = 'accepte' ";
+                $stmt = $conn->prepare($requet);
                 $stmt->execute();
                 $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
                 return $result;
@@ -76,17 +75,19 @@ class Wiki
                 echo $e->getMessage();
             }
         }
-        public static function getWikisByuserId($userId){
-            try{
-                $conn=Database::connect();
-                $sql = "SELECT * FROM `wiki` WHERE user_id = ? AND status = 'Accepted'";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(1, $userId);
+        public static function updateStatus($wikiId, $nouveauStatus)
+        {
+            try {
+                $conn = Database::connect();
+    
+                $request = "UPDATE `wiki` SET `statut` = :newStatus WHERE `id` = :wikiId";
+                $stmt = $conn->prepare($request);
+                $stmt->bindParam(':newStatus', $nouveauStatus);
+                $stmt->bindParam(':wikiId', $wikiId);
                 $stmt->execute();
-                $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-                return $result;
-            }
-            catch (\PDOException $e) {
+    
+    
+            } catch (\PDOException $e) {
                 echo $e->getMessage();
             }
         }
@@ -94,10 +95,10 @@ class Wiki
         public static function updateWiki($wikiId , $status){
             try{
                 $conn=Database::connect();
-                $sql = "UPDATE `wiki` SET `status` = ? WHERE `id` = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(1, $status);
-                $stmt->bindParam(2, $wikiId);
+                $requet = "UPDATE `wiki` SET `statut` = :statut WHERE `id` = :id";
+                $stmt = $conn->prepare($requet);
+                $stmt->bindParam(':statut', $statut);
+                $stmt->bindParam(':id', $wikiId);
                 $stmt->execute();
             }
             catch (\PDOException $e) {
@@ -105,25 +106,8 @@ class Wiki
             }
         }
     
-        public static function getWikisById($wikiId){
-            try {
-                $conn=Database::connect();
-                $sql = "SELECT w.*, u.fullname AS user_name, u.email AS user_email, u.profil AS user_profil, t.name AS tag_name
-                FROM Wiki w
-                JOIN User u ON w.user_id = u.id
-                LEFT JOIN Wiki_Tag wt ON w.id = wt.wiki_id
-                LEFT JOIN Tag t ON wt.tag_id = t.id
-                WHERE w.id = ?;
-                ";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(1, $wikiId);
-                $stmt->execute();
-                $result = $stmt->fetch(\PDO::FETCH_ASSOC); 
-                return $result;
-            } catch (\PDOException $e) {
-                echo $e->getMessage();
-            }
-        }
+       
+}
+
+
     
-    
-    }

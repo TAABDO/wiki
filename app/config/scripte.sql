@@ -13,10 +13,7 @@ CREATE TABLE categorie (
     nom VARCHAR(255),
     
 );
-CREATE TABLE role (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nom VARCHAR(255),
-);
+
 CREATE TABLE utilisateur(
 
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -24,7 +21,7 @@ CREATE TABLE utilisateur(
     email VARCHAR(255),
     motedepasse VARCHAR(255),
     role_id int,
-    FOREIGN KEY (role_id) REFERENCES role(id) on delete CASCADE on update CASCADE
+    FOREIGN KEY (role_id) REFERENCES role(id) on delete CASCADE on UPDATE CASCADE
 );
 
 CREATE TABLE wiki (
@@ -33,7 +30,7 @@ CREATE TABLE wiki (
     titre VARCHAR(255),
     contenu VARCHAR(255),
     image VARCHAR(255),
-    statut BOOLEAN,
+    statut ENUM,
     utilisateur_id INT,
     categorie_id INT,
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE ON UPDATE CASCADE,

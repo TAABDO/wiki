@@ -1,13 +1,13 @@
 <?php
 
+namespace Myapp\model;
+
+use Myapp\config\Database;
+require_once __DIR__ . "/../../vendor/autoload.php";
 
 
 
-
-
-
-
-class TagDAO
+class Tag
 {
     public static function obtenirTagparName($Nomtag)
     {
@@ -67,4 +67,24 @@ class TagDAO
             echo $e->getMessage();
         }
     }
+    
+    
+
+    public static function updateTag($tagId, $nouveauTagNom)
+{
+    try {
+        $conn = Database::connect();
+
+        $requet = "UPDATE `tag` SET `nom` = :nom WHERE `id` = :id";
+        $stmt = $conn->prepare($requet);
+        $stmt->bindParam(':nom', $nouveauTagNom);
+        $stmt->bindParam(':id', $tagId);
+        $result = $stmt->execute();
+
+        return $result;
+    } catch (\PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    }
+}
 }

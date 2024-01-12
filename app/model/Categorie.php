@@ -1,6 +1,9 @@
 <?php
 
+namespace Myapp\model;
 
+use Myapp\config\Database;
+require_once __DIR__ . "/../../vendor/autoload.php";
 
 class Categorie
 {
@@ -12,7 +15,9 @@ class Categorie
             $requet = "INSERT INTO `Categorie` (`nom`) VALUES (:nom)";
             $stmt = $conn->prepare($requet);
             $stmt->bindParam(':nom',$Categorie);
-            $stmt->execute();
+              $result= $stmt->execute();
+
+             return $result;
     
         }catch(\PDOException $e){
             echo $e->getMessage();
@@ -77,21 +82,22 @@ class Categorie
         }
     }
 
-    
-    public static function updateCategory($idCategorie, $newCategoryName)
-    {
-        try {
-            $conn=Database::connect();
+    public static function updateCategorie($idCategorie, $nouveauCatNom)
+{
+    try {
+        $conn = Database::connect();
 
-            $requet = "UPDATE `Categorie` SET `nom` = :nom WHERE `id` = :id";
-            $stmt = $conn->prepare($requet);
-            $stmt->bindParam(':nom', $newCategoryName);
-            $stmt->bindParam(':id', $idCategorie);
-            $stmt->execute();
-            return true;
-        } catch (\PDOException $e) {
-            echo $e->getMessage();
-            return false;
-        }
+        $requet = "UPDATE `Categorie` SET `nom` = :nom WHERE `id` = :id";
+        $stmt = $conn->prepare($requet);
+        $stmt->bindParam(':nom', $nouveauCatNom);
+        $stmt->bindParam(':id', $idCategorie);
+        $result = $stmt->execute();
+
+        return $result;
+    } catch (\PDOException $e) {
+        echo $e->getMessage();
+        return false;
     }
+}
+
 }
